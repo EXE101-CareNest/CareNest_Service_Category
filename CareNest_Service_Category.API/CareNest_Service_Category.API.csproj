@@ -14,4 +14,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CareNest_Service_Category.Application\CareNest_Service_Category.Application.csproj" />
+    <ProjectReference Include="..\CareNest_Service_Category.Infrastructure\CareNest_Service_Category.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
