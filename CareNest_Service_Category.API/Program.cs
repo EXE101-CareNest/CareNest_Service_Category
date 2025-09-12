@@ -1,4 +1,5 @@
 ﻿using CareNest.Domain.Entitites;
+using CareNest_Service_Category.API.Middleware;
 using CareNest_Service_Category.Application.Common;
 using CareNest_Service_Category.Application.Features.Commands.Create;
 using CareNest_Service_Category.Application.Features.Commands.Delete;
@@ -217,6 +218,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

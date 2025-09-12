@@ -2,7 +2,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace CareNest_Service_Category.Middleware
+namespace CareNest_Service_Category.API.Middleware
 {
     public class GlobalExceptionHandlingMiddleware
     {
