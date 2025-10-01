@@ -13,6 +13,8 @@
         public const string DuplicateRecord = "A record with the same key already exists.";
         public const string ValidationFailed = "Data validation failed.";
         public const string OperationFailed = "The operation could not be completed.";
+        public const string BadRequest = "Bad request";
+
         //name
         public const string MissingName = "Name must not be empty or null.";
         public const string Exceed100CharsName = "Name must not exceed 100 characters.";

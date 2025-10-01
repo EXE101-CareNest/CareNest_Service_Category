@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CareNest_Service_Category.Domain.Commons
+namespace CareNest_Service_Category.Domain.Commons.Base
 {
     public abstract class BaseEntity
     {

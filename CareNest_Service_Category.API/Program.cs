@@ -1,6 +1,7 @@
 ﻿using CareNest.Domain.Entitites;
 using CareNest_Service_Category.API.Middleware;
 using CareNest_Service_Category.Application.Common;
+using CareNest_Service_Category.Application.Common.Options;
 using CareNest_Service_Category.Application.Features.Commands.Create;
 using CareNest_Service_Category.Application.Features.Commands.Delete;
 using CareNest_Service_Category.Application.Features.Commands.Update;
@@ -84,7 +85,10 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-
+// Đăng ký cấu hình APIServiceOption
+builder.Services.Configure<APIServiceOption>(
+    builder.Configuration.GetSection("APIService")
+);
 // Đăng ký các repository
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -120,7 +124,10 @@ builder.Services.AddCors(options =>
 
 
 //Đăng ký lấy thông tin từ token
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<IAPIService, APIService>();
+builder.Services.AddScoped<IService, Service>();
 
 //Đăng ký HttpClient
 //builder.Services.AddHttpClient<IAccountService, AccountService>(client =>
@@ -208,7 +215,10 @@ builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddScoped<IUseCaseDispatcher, UseCaseDispatcher>();
 
-
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+});
 
 var app = builder.Build();
 
@@ -217,6 +227,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+    context.Database.Migrate();
 }
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 

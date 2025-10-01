@@ -1,7 +1,7 @@
-﻿using CareNest_Service_Category.Domain.Repositories;
+﻿using CareNest_Service_Category.Application.Interfaces.UOW;
+using CareNest_Service_Category.Domain.Repositories;
 using CareNest_Service_Category.Infrastructure.Persistences.Database;
 using CareNest_Service_Category.Infrastructure.Persistences.Repository;
-using CareNest_Service_Category.Application.Interfaces.UOW;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CareNest_Service_Category.Infrastructure.UOW

@@ -13,6 +13,6 @@ namespace CareNest_Service_Category.Application.Features.Commands.Create
         /// Id dịch vụ
         /// </summary>
         public string? Service_Id { get; set; }
-        
+
     }
 }

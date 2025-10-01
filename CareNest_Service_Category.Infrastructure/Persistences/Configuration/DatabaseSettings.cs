@@ -2,11 +2,11 @@
 {
     public class DatabaseSettings
     {
-        public  string? Ip { get; set; }
+        public string? Ip { get; set; }
         public int Port { get; set; }
-        public  string? User { get; set; }
-        public  string? Password { get; set; }
-        public  string? Database { get; set; }
+        public string? User { get; set; }
+        public string? Password { get; set; }
+        public string? Database { get; set; }
         public string GetConnectionString()
         {
             Console.WriteLine($"Host={Ip};Port={Port};Database={Database};Username={User};Password={Password}");

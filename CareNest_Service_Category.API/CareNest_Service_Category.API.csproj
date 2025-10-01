@@ -6,6 +6,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<DocumentationFile>bin\Debug\net8.0\CareNest_Service_Category.API.xml</DocumentationFile>
+		<UserSecretsId>b1ee3501-e26f-4bab-9e12-10d66e2b9b08</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,5 +20,7 @@
 		<ProjectReference Include="..\CareNest_Service_Category.Application\CareNest_Service_Category.Application.csproj" />
 		<ProjectReference Include="..\CareNest_Service_Category.Infrastructure\CareNest_Service_Category.Infrastructure.csproj" />
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://www.schemastore.org/appsscript.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

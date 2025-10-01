@@ -1,8 +1,8 @@
-﻿using CareNest_Service_Category.Domain.Commons;
+﻿using CareNest_Service_Category.Domain.Commons.Base;
 
 namespace CareNest.Domain.Entitites
 {
-    public class ServiceCategory: BaseEntity
+    public class ServiceCategory : BaseEntity
     {
         /// <summary>
         /// Tên dịch vụ 

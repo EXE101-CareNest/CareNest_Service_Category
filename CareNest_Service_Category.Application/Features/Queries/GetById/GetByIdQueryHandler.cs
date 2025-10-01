@@ -1,7 +1,8 @@
-﻿using CareNest_Service_Category.Domain.Commons.Constant;
-using CareNest.Domain.Entitites;
+﻿using CareNest.Domain.Entitites;
+using CareNest_Service_Category.Application.Exceptions;
 using CareNest_Service_Category.Application.Interfaces.CQRS.Queries;
 using CareNest_Service_Category.Application.Interfaces.UOW;
+using CareNest_Service_Category.Domain.Commons.Constant;
 
 namespace CareNest_Service_Category.Application.Features.Queries.GetById
 {
@@ -20,7 +21,7 @@ namespace CareNest_Service_Category.Application.Features.Queries.GetById
 
             if (service == null)
             {
-                throw new Exception(MessageConstant.NotFound);
+                throw new BadRequestException("Service Category Id: " + MessageConstant.NotFound);
             }
             return service;
         }

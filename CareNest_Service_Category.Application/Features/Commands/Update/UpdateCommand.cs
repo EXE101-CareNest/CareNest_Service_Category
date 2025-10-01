@@ -3,7 +3,7 @@ using CareNest_Service_Category.Application.Interfaces.CQRS.Commands;
 
 namespace CareNest_Service_Category.Application.Features.Commands.Update
 {
-    public class UpdateCommand: ICommand<ServiceCategory>
+    public class UpdateCommand : ICommand<ServiceCategory>
     {
         public string Id { get; set; } = string.Empty;
         /// <summary>

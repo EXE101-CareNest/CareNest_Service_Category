@@ -1,7 +1,6 @@
-﻿using CareNest_Service_Category.Domain.Commons.Constant;
-using CareNest_Service_Category.Application.Exceptions;
-using CareNest_Service_Category.Application.Features.Commands.Create;
+﻿using CareNest_Service_Category.Application.Features.Commands.Create;
 using CareNest_Service_Category.Application.Features.Commands.Update;
+using CareNest_Service_Category.Domain.Commons.Constant;
 using System.Text.RegularExpressions;
 
 namespace CareNest_Service_Category.Application.Exceptions.Validators

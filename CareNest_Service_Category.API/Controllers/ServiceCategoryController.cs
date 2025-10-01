@@ -1,14 +1,14 @@
-﻿using CareNest_Service_Category.Application.Common;
+﻿using CareNest.Domain.Entitites;
+using CareNest_Service_Category.API.Extensions;
+using CareNest_Service_Category.Application.Common;
+using CareNest_Service_Category.Application.Features.Commands.Create;
 using CareNest_Service_Category.Application.Features.Commands.Delete;
 using CareNest_Service_Category.Application.Features.Commands.Update;
 using CareNest_Service_Category.Application.Features.Queries.GetAllPaging;
 using CareNest_Service_Category.Application.Features.Queries.GetById;
 using CareNest_Service_Category.Application.Interfaces.CQRS;
-using CareNest.Domain.Entitites;
-using CareNest_Service_Category.API.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using CareNest_Service_Category.Application.Features.Commands.Create;
 using CareNest_Service_Category.Domain.Commons.Constant;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace CareNest_Service.Controllers
@@ -83,7 +83,7 @@ namespace CareNest_Service.Controllers
         /// <param name="request">các thông tin cần sửa</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id,[FromBody] UpdateRequest request)
+        public async Task<IActionResult> Update(string id, [FromBody] UpdateRequest request)
         {
 
             var command = new UpdateCommand()

@@ -1,4 +1,5 @@
 ﻿using CareNest_Service_Category.Application.Exceptions;
+using CareNest_Service_Category.Domain.Commons.Base;
 using System.Net;
 using System.Text.Json;
 
@@ -94,6 +95,15 @@ namespace CareNest_Service_Category.API.Middleware
                 {
                     title = exception.Message,
                     details = exception.InnerException?.Message
+                };
+            }
+            else if (exception is BaseException.ErrorException errorException)
+            {
+                statusCode = errorException.StatusCode;
+                errorDetails = new
+                {
+                    title = errorException.ErrorDetail.ErrorCode,
+                    details = errorException.ErrorDetail.ErrorMessage
                 };
             }
             else
