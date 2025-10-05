@@ -42,7 +42,7 @@ namespace CareNest_Service_Category.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("Service_Id")
+                    b.Property<string>("ShopId")
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -53,7 +53,7 @@ namespace CareNest_Service_Category.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ServiceCategories");
+                    b.ToTable("ServiceCategories", (string)null);
                 });
 #pragma warning restore 612, 618
         }

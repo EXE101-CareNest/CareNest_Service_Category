@@ -31,20 +31,23 @@ namespace CareNest_Service.Controllers
         /// <param name="pageSize">Số lượng phần tử trong trang</param>
         /// <param name="sortColumn">cột muốn sort: name, updateat,ownerid</param>
         /// <param name="sortDirection">cách sort asc or desc</param>
+        /// <param name="shopId">Lọc theo ShopId</param>
         /// <returns>Danh sách dịch vụ</returns>
         [HttpGet]
         public async Task<IActionResult> GetPaging(
             [FromQuery] int pageIndex = 1,
             [FromQuery] int pageSize = 10,
             [FromQuery] string? sortColumn = null,
-            [FromQuery] string? sortDirection = "asc")
+            [FromQuery] string? sortDirection = "asc",
+            [FromQuery] string? shopId = null)
         {
             var query = new GetAllPagingQuery()
             {
                 Index = pageIndex,
                 PageSize = pageSize,
                 SortColumn = sortColumn,
-                SortDirection = sortDirection
+                SortDirection = sortDirection,
+                ShopId = shopId
             };
             var result = await _dispatcher.DispatchQueryAsync<GetAllPagingQuery, PageResult<ServiceResponse>>(query);
             return this.OkResponse(result, MessageConstant.SuccessGet);

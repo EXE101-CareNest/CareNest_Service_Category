@@ -176,6 +176,7 @@ namespace CareNest_Service_Category.Infrastructure.Services
             return serviceType.ToLower() switch
             {
                 "service" => _option.BaseUrlService,
+                "shop" => _option.BaseUrlShop,
                 _ => throw new ArgumentException($"Service type '{serviceType}' không hợp lệ!", nameof(serviceType))
             };
         }

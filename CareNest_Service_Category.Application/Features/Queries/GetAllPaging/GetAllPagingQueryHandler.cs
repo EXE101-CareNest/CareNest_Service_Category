@@ -19,9 +19,16 @@ namespace CareNest_Service_Category.Application.Features.Queries.GetAllPaging
             var selector = ObjectMapperExtensions.CreateMapExpression<ServiceCategory, ServiceResponse>();
 
             var orderByFunc = GetOrderByFunc(query.SortColumn, query.SortDirection);
+            
+            // Thêm điều kiện lọc theo ShopId nếu có
+            System.Linq.Expressions.Expression<Func<ServiceCategory, bool>>? predicate = null;
+            if (!string.IsNullOrWhiteSpace(query.ShopId))
+            {
+                predicate = s => s.ShopId == query.ShopId;
+            }
 
             IEnumerable<ServiceResponse> a = await _unitOfWork.GetRepository<ServiceCategory>().FindAsync(
-                predicate: null,
+                predicate: predicate,
                 orderBy: orderByFunc,
                 selector: selector,
                 pageSize: query.PageSize,

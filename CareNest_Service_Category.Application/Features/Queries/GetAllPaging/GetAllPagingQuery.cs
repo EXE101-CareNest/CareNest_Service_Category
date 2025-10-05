@@ -9,5 +9,6 @@ namespace CareNest_Service_Category.Application.Features.Queries.GetAllPaging
         public int PageSize { get; set; }
         public string? SortColumn { get; set; } // "Name", "Note", "CreatedAt"
         public string? SortDirection { get; set; } // "asc" or "desc"
+        public string? ShopId { get; set; } // Lọc theo ShopId
     }
 }

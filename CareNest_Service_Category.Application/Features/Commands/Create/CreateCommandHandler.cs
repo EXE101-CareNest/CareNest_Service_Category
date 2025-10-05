@@ -10,10 +10,10 @@ namespace CareNest_Service_Category.Application.Features.Commands.Create
     public class CreateCommandHandler : ICommandHandler<CreateCommand, ServiceCategory>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IService _service; 
+        private readonly IShopService _service; 
 
 
-        public CreateCommandHandler(IUnitOfWork unitOfWork, IService service)
+        public CreateCommandHandler(IUnitOfWork unitOfWork, IShopService service)
         {
             _unitOfWork = unitOfWork;
             _service = service;
@@ -23,13 +23,13 @@ namespace CareNest_Service_Category.Application.Features.Commands.Create
         {
             //Validate.ValidateCreate(command);
 
-            //kiểm tra service tồn tại
-            var service = await _service.GetServiceById(command.Service_Id);
+            //kiểm tra shop tồn tại
+            var shop = await _service.GetShopById(command.ShopId);
 
             ServiceCategory serviceCategory = new()
             {
                 Name = command.Name,
-                Service_Id = service.Data!.Data!.Id,
+                ShopId = shop.Data!.Data!.Id,
                 CreatedAt = TimeHelper.GetUtcNow()
             };
             await _unitOfWork.GetRepository<ServiceCategory>().AddAsync(serviceCategory);

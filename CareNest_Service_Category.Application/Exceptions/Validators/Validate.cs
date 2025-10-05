@@ -45,10 +45,10 @@ namespace CareNest_Service_Category.Application.Exceptions.Validators
         /// <exception cref="BadRequestException"></exception>
         public static void ValidateShopId(string? id)
         {
-            // id của chủ shop không được trống
+            // id của shop không được trống
             if (string.IsNullOrWhiteSpace(id))
             {
-                throw new BadRequestException(MessageConstant.MissingServiceId);
+                throw new BadRequestException(MessageConstant.MissingShopId);
             }
         }
     }

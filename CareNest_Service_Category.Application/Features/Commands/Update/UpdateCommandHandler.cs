@@ -12,9 +12,9 @@ namespace CareNest_Service_Category.Application.Features.Commands.Update
     public class UpdateCommandHandler : ICommandHandler<UpdateCommand, ServiceCategory>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IService _service;
+        private readonly IShopService _service;
 
-        public UpdateCommandHandler(IUnitOfWork unitOfWork, IService service)
+        public UpdateCommandHandler(IUnitOfWork unitOfWork, IShopService service)
         {
             _unitOfWork = unitOfWork;
             _service = service;
@@ -30,11 +30,11 @@ namespace CareNest_Service_Category.Application.Features.Commands.Update
                ?? throw new BadRequestException("Id: " + MessageConstant.NotFound);
 
             if (command.Name != null) serviceCategory.Name = command.Name;
-            if (command.Service_Id != null)
+            if (command.ShopId != null)
             {
                 //kiểm tra service tồn tại
-                var service = await _service.GetServiceById(command.Service_Id);
-                serviceCategory.Service_Id = service.Data!.Data!.Id;
+                var service = await _service.GetShopById(command.ShopId);
+                serviceCategory.ShopId = service.Data!.Data!.Id;
 
             }
 

@@ -10,6 +10,6 @@
         /// Tên loại dịch vụ 
         /// </summary>
         public string? Name { get; set; }
-        public string? Service_Id { get; set; }
+        public string? ShopId { get; set; }
     }
 }

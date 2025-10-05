@@ -13,7 +13,7 @@ namespace CareNest_Service_Category.Application.Features.Commands.Update
         /// <summary>
         /// Id dịch vụ
         /// </summary>
-        public string? Service_Id { get; set; }
+        public string? ShopId { get; set; }
 
     }
 }

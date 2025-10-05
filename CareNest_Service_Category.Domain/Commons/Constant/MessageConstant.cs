@@ -17,6 +17,7 @@
 
         //name
         public const string MissingName = "Name must not be empty or null.";
+        public const string MissingShopId = "ShopId must not be empty or null.";
         public const string Exceed100CharsName = "Name must not exceed 100 characters.";
         public const string SpecialCharacterName = "Name must not contain special characters (!@#$^*&<>?).";
 
