@@ -93,6 +93,7 @@ namespace CareNest_Service.Controllers
             {
                 Id = id,
                 Name = request.Name,
+                ShopId = request.ShopId
             };
             ServiceCategory result = await _dispatcher.DispatchAsync<UpdateCommand, ServiceCategory>(command);
 
