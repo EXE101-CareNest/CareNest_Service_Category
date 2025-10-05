@@ -11,5 +11,6 @@
         /// </summary>
         public string? Name { get; set; }
         public string? ShopId { get; set; }
+        public string? ShopName { get; set; }
     }
 }

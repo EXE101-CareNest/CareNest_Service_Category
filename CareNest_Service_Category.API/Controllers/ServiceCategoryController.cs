@@ -62,7 +62,7 @@ namespace CareNest_Service.Controllers
         public async Task<IActionResult> GetById(string id)
         {
             var query = new GetByIdQuery() { Id = id };
-            ServiceCategory result = await _dispatcher.DispatchQueryAsync<GetByIdQuery, ServiceCategory>(query);
+            ServiceResponse result = await _dispatcher.DispatchQueryAsync<GetByIdQuery, ServiceResponse>(query);
             return this.OkResponse(result, MessageConstant.SuccessGet);
         }
 
@@ -92,8 +92,7 @@ namespace CareNest_Service.Controllers
             var command = new UpdateCommand()
             {
                 Id = id,
-                Name = request.Name,
-                ShopId = request.ShopId
+                Name = request.Name
             };
             ServiceCategory result = await _dispatcher.DispatchAsync<UpdateCommand, ServiceCategory>(command);
 
