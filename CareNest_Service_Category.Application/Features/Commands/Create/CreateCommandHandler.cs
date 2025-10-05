@@ -21,7 +21,7 @@ namespace CareNest_Service_Category.Application.Features.Commands.Create
 
         public async Task<ServiceCategory> HandleAsync(CreateCommand command)
         {
-            Validate.ValidateCreate(command);
+            //Validate.ValidateCreate(command);
 
             //kiểm tra service tồn tại
             var service = await _service.GetServiceById(command.Service_Id);

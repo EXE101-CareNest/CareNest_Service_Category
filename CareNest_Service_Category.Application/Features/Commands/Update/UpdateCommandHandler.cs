@@ -23,7 +23,7 @@ namespace CareNest_Service_Category.Application.Features.Commands.Update
         public async Task<ServiceCategory> HandleAsync(UpdateCommand command)
         {
             // Gọi validator để kiểm tra dữ liệu
-            Validate.ValidateUpdate(command);
+            //Validate.ValidateUpdate(command);
 
             // Tìm để cập nhật
             ServiceCategory? serviceCategory = await _unitOfWork.GetRepository<ServiceCategory>().GetByIdAsync(command.Id)
