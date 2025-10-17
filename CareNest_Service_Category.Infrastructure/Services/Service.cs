@@ -4,6 +4,7 @@ using CareNest_Service_Category.Application.Interfaces.Services;
 using CareNest_Service_Category.Domain.Commons.Base;
 using CareNest_Service_Category.Domain.Commons.Constant;
 using CareNest_Service_Category.Infrastructure.ApiEndpoints;
+using CareNest_Service_Category.Application.Features.Queries.GetServicesByCategories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,12 @@ namespace CareNest_Service_Category.Infrastructure.Services
                 throw BaseException.BadRequestBadRequestResponse("Service Id : " + MessageConstant.NotFound);
             }
             return appointment;
+        }
+
+        public async Task<ResponseResult<List<ServiceByCategoryResponse>>> GetServicesByCategoryIds(List<string> categoryIds)
+        {
+            var result = await _apiService.PostAsync<List<ServiceByCategoryResponse>>(ServiceEndpoint.GetByCategories(), categoryIds);
+            return result;
         }
     }
 }

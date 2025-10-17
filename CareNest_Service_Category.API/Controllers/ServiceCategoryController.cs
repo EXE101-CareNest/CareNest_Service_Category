@@ -6,6 +6,7 @@ using CareNest_Service_Category.Application.Features.Commands.Delete;
 using CareNest_Service_Category.Application.Features.Commands.Update;
 using CareNest_Service_Category.Application.Features.Queries.GetAllPaging;
 using CareNest_Service_Category.Application.Features.Queries.GetById;
+using CareNest_Service_Category.Application.Features.Queries.GetByShopId;
 using CareNest_Service_Category.Application.Interfaces.CQRS;
 using CareNest_Service_Category.Domain.Commons.Constant;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +51,19 @@ namespace CareNest_Service.Controllers
                 ShopId = shopId
             };
             var result = await _dispatcher.DispatchQueryAsync<GetAllPagingQuery, PageResult<ServiceResponse>>(query);
+            return this.OkResponse(result, MessageConstant.SuccessGet);
+        }
+
+        /// <summary>
+        /// Lấy danh sách category theo shopId
+        /// </summary>
+        /// <param name="shopId">Id của shop</param>
+        /// <returns>Danh sách category</returns>
+        [HttpGet("by-shop/{shopId}")]
+        public async Task<IActionResult> GetByShopId(string shopId)
+        {
+            var query = new GetByShopIdQuery { ShopId = shopId };
+            List<ServiceResponse> result = await _dispatcher.DispatchQueryAsync<GetByShopIdQuery, List<ServiceResponse>>(query);
             return this.OkResponse(result, MessageConstant.SuccessGet);
         }
 

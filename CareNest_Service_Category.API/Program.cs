@@ -7,6 +7,8 @@ using CareNest_Service_Category.Application.Features.Commands.Delete;
 using CareNest_Service_Category.Application.Features.Commands.Update;
 using CareNest_Service_Category.Application.Features.Queries.GetAllPaging;
 using CareNest_Service_Category.Application.Features.Queries.GetById;
+using CareNest_Service_Category.Application.Features.Queries.GetByShopId;
+using CareNest_Service_Category.Application.Features.Queries.GetServicesByCategories;
 using CareNest_Service_Category.Application.Interfaces.CQRS;
 using CareNest_Service_Category.Application.Interfaces.CQRS.Commands;
 using CareNest_Service_Category.Application.Interfaces.CQRS.Queries;
@@ -99,6 +101,8 @@ builder.Services.AddScoped<ICommandHandler<DeleteCommand>, DeleteCommandHandler>
 //query
 builder.Services.AddScoped<IQueryHandler<GetAllPagingQuery, PageResult<ServiceResponse>>, GetAllPagingQueryHandler>();
 builder.Services.AddScoped<IQueryHandler<GetByIdQuery, ServiceResponse>, GetByIdQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetByShopIdQuery, List<ServiceResponse>>, GetByShopIdQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetServicesByCategoriesQuery, List<ServiceByCategoryResponse>>, GetServicesByCategoriesQueryHandler>();
 
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("JwtSettings")
