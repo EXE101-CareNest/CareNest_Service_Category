@@ -31,22 +31,32 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
-// Lấy DatabaseSettings từ configuration
-DatabaseSettings dbSettings = builder.Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>()!;
+// Lấy DatabaseSettings từ configuration (ưu tiên lấy env - dùng cho cloud build Koyeb)
+var config = builder.Configuration;
+DatabaseSettings dbSettings = new DatabaseSettings
+{
+    Ip = config["DB_HOST"] ?? config["DatabaseSettings:Ip"],
+    Port = int.TryParse(config["DB_PORT"], out var port) ? port : (config.GetSection("DatabaseSettings").GetValue<int?>("Port") ?? 5432),
+    User = config["DB_USER"] ?? config["DatabaseSettings:User"],
+    Password = config["DB_PASSWORD"] ?? config["DatabaseSettings:Password"],
+    Database = config["DB_NAME"] ?? config["DatabaseSettings:Database"]
+};
 dbSettings.Display();
-string connectionString = dbSettings?.GetConnectionString()
-                        ?? "Host=localhost;Port=5432;Database=service-category-dev;Username=exe-carenest-dev;Password=nghi123";
+string connectionString = dbSettings.GetConnectionString() ?? "Host=localhost;Port=5432;Database=service-category-dev;Username=exe-carenest-dev;Password=nghi123";
 
 
-// Đăng ký DbContext với PostgreSQL
+// Đăng ký DbContext với PostgreSQL - chuẩn cloud Koyeb
 builder.Services.AddDbContext<DatabaseContext>(options =>
-    options.UseNpgsql(connectionString, npgsqlOptions =>
-    {
-        npgsqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 5,
-            maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorCodesToAdd: null);
-    }));
+    options.UseNpgsql(
+        connectionString + ";Pooling=true;Maximum Pool Size=5;Minimum Pool Size=0;Timeout=15;",
+        npgsqlOptions =>
+        {
+            npgsqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(5),
+                errorCodesToAdd: null);
+            // npgsqlOptions.CommandTimeout(60); // Nếu muốn có thể enable thêm
+        }));
 
 builder.Services.AddTransient<DatabaseSeeder>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -108,6 +118,7 @@ builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("JwtSettings")
 );
 
+// Add CORS policies: AllowAll cho dev, AllowTrusted cho prod
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -118,6 +129,15 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();
+        });
+    // Production: chỉ allow origin cụ thể, không credentials
+    options.AddPolicy("AllowTrusted",
+        builder =>
+        {
+            builder
+                .WithOrigins("https://your-production-domain.com")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
         });
 });
 
@@ -139,22 +159,36 @@ builder.Services.Configure<RouteOptions>(options =>
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// => Dùng biến flag thay vì chỉ kiểm tra IsDevelopment()
+var swaggerEnabled = app.Environment.IsDevelopment() || builder.Configuration.GetValue<bool>("Swagger:Enabled");
+if (swaggerEnabled)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// Chỉ migrate khi RUN_MIGRATIONS=true (chuẩn cloud)
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-    context.Database.Migrate();
+    var runMigrations = Environment.GetEnvironmentVariable("RUN_MIGRATIONS");
+    if (!string.IsNullOrWhiteSpace(runMigrations) && runMigrations.Equals("true", StringComparison.OrdinalIgnoreCase))
+    {
+        context.Database.Migrate();
+    }
 }
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
 app.UseRouting();
-app.UseCors("AllowAll");
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+{
+    app.UseCors("AllowAll");
+}
+else
+{
+    app.UseCors("AllowTrusted");
+}
 app.UseAuthorization();
 app.MapControllers();
 
