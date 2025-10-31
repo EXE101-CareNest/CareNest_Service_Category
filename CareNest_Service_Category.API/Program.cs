@@ -101,6 +101,15 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.Configure<APIServiceOption>(
     builder.Configuration.GetSection("APIService")
 );
+// Override từ ENV nếu có (hỗ trợ cả SERVICE_API_URL/SHOP_API_URL dạng đơn)
+builder.Services.PostConfigure<APIServiceOption>(opt =>
+{
+    var cfg = builder.Configuration;
+    var serviceUrl = cfg["APIService:BaseUrlService"] ?? cfg["SERVICE_API_URL"];
+    var shopUrl = cfg["APIService:BaseUrlShop"] ?? cfg["SHOP_API_URL"];
+    if (!string.IsNullOrWhiteSpace(serviceUrl)) opt.BaseUrlService = serviceUrl!;
+    if (!string.IsNullOrWhiteSpace(shopUrl)) opt.BaseUrlShop = shopUrl!;
+});
 // Đăng ký các repository
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

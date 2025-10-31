@@ -19,7 +19,11 @@ namespace CareNest_Service_Category.Infrastructure.Services
         {
             _httpClient = httpClient;
             _option = option.Value;
-            _httpClient.BaseAddress = new Uri(option.Value.BaseUrlService);
+            if (!Uri.TryCreate(_option.BaseUrlService, UriKind.Absolute, out var baseUri))
+            {
+                throw new UriFormatException("APIService BaseUrlService không hợp lệ hoặc chưa được cấu hình.");
+            }
+            _httpClient.BaseAddress = baseUri;
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
